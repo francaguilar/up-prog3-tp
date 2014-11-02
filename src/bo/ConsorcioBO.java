@@ -27,8 +27,8 @@ public class ConsorcioBO {
 		dao.modificacion(c);
 	}
 	
-	public Consorcio get(Consorcio c) throws ConsorcioException{
-		return dao.get(c);
+	public Consorcio get(int id) throws ConsorcioException{
+		return dao.get(id);
 	}
 	
 	public ArrayList<Consorcio> getAll() throws ConsorcioException{

@@ -14,12 +14,19 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import entidades.Consorcio;
+import exceptions.ConsorcioException;
+
+import bo.ConsorcioBO;
+
 import ui.FrameVentanaPrincipal;
 import ui.PanelConsorcio;
-import ui.PanelConsorcioAlta;
+import ui.PanelConsorcioEdicion;
+import utils.ModoEdicion;
 
 public class Handler {
 
@@ -28,99 +35,63 @@ public class Handler {
 	public Handler(){
 		vp = new FrameVentanaPrincipal();
 	}
-	
-	public static void test(){
-		
-		JFrame j = new JFrame("Administración de Consorcios");
-		
-		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		j.setLocationRelativeTo(null);
-		
-		JMenuBar menuBar = new JMenuBar();
-		
-		JMenu menuAdmin = new JMenu("Administración");
-		menuBar.add(menuAdmin);
-		
-		JMenuItem menuItemConsorcio = new JMenuItem("Consorcios");
-		
-		menuAdmin.add(menuItemConsorcio);
-		
-		j.setJMenuBar(menuBar);
-		
-		JPanel panel = new JPanel(new BorderLayout());
-		
-		Label bienvenido = new Label("Bienvenido.");
-		bienvenido.setAlignment(Label.CENTER);
-		
-		panel.add(bienvenido, BorderLayout.CENTER);
-		
-		j.getContentPane().add(panel);
-		
-//		j.pack();
-		
-		j.setLocation(0,0);
-		j.setSize(800,600);
-		
-//		ConsorcioBO cbo = new ConsorcioBO(); 
-//		
-//		ArrayList<Consorcio> consorcios;
-//		
-//		try {
-//			consorcios = cbo.getAll();
-//		} catch (ConsorcioException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return;
-//		}
-//		
-//		String[] columnNames = { "Id",
-//				"Calle",
-//                "Número",
-//                "Código Postal",
-//                "Provincia",
-//                "Localidad"};
-//		
-//		
-//		Object[][] consorciosTable = new Object[6][consorcios.size()];
-//		
-//		for(int i = 0; i < consorcios.size(); i++){
-//			consorciosTable[0][i] = consorcios.get(i).getId();
-//			consorciosTable[1][i] = consorcios.get(i).getCalle();
-//			consorciosTable[2][i] = consorcios.get(i).getNumero();
-//			consorciosTable[3][i] = consorcios.get(i).getCodigoPostal();
-//			consorciosTable[4][i] = consorcios.get(i).getProvincia();
-//			consorciosTable[5][i] = consorcios.get(i).getLocalidad();
-//		}
-//		
-//		JTable table = new JTable(consorciosTable,columnNames);
-//		
-//		JPanel jpConsorcios = new JPanel();
-//		
-//		jpConsorcios.add(table);
-		
-//		j.getContentPane().add(jpConsorcios);
-		
-		j.setVisible(true);
-		
-		
-		
-	}
 
 	public void listaConsorcio(){
 		PanelConsorcio p = new PanelConsorcio();
 		
-		p.crearVentana();
+		ConsorcioBO cbo = new ConsorcioBO();
+		
+		ArrayList<Consorcio> consorcios;
+		
+		try {
+			consorcios = cbo.getAll();
+		} catch (ConsorcioException e) {
+			
+			e.printStackTrace();
+			return;
+		}
+		
+		p.crear();
+		
+		p.insertarTabla(consorcios);
 		
 		this.vp.agregar(p);
 	}
 	
 	public void altaConsorcio(){
-		PanelConsorcioAlta pAlta = new PanelConsorcioAlta();
+		PanelConsorcioEdicion pAlta = new PanelConsorcioEdicion(ModoEdicion.ALTA);
 		
-		pAlta.crearVentana();
+		pAlta.crear();
 		
 		this.vp.agregar(pAlta);
+	}
+	
+	public void edicionConsorcio(int id){
+		PanelConsorcioEdicion pMod = new PanelConsorcioEdicion(ModoEdicion.MODIFICACION);
+		
+		ConsorcioBO cbo = new ConsorcioBO();
+		
+		try {
+			pMod.setConsorcio(cbo.get(id));
+		} catch (ConsorcioException e) {
+			
+			e.printStackTrace();
+		}
+		
+		pMod.crear();
+		
+		this.vp.agregar(pMod);
+	}
+
+	public void grabarConsorcio(Consorcio c, ModoEdicion m) throws ConsorcioException{
+		ConsorcioBO cbo = new ConsorcioBO();
+
+		if(m == ModoEdicion.ALTA){
+			cbo.alta(c);
+		}
+		else{
+			cbo.modificacion(c);
+		}
 	}
 	
 	public void iniciar(){

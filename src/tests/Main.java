@@ -16,8 +16,6 @@ import exceptions.UsuarioException;
 import utils.Dentre;
 import utils.TableManager;
 
-//commit do Tiago
-//commit do tiago 2 agora no meu branch
 public class Main {
 
 	/**
@@ -27,12 +25,8 @@ public class Main {
 		
 		//Crea las tablas e ignora el error si ya existen
 		TableManager.crearTablas();
-		
-//		TestConsorcio();
-		
+
 		TestUI();
-		
-		//un test en main - github
 
 	}
 	
@@ -42,22 +36,16 @@ public class Main {
 		h.iniciar();
 		
 //		h.altaConsorcio();
-//		
-//		try {
-//			System.in.read();
-//		} catch (IOException e) {
-//			
-//		}
-//		
-//		h.limpiar();
-//		
 		h.listaConsorcio();
+//		h.edicionConsorcio(3);
 	}
 	
 	public static void TestConsorcio(){
 		ConsorcioBO cbo = new ConsorcioBO();
 		
 		Consorcio c = new Consorcio();
+		
+		c.setId(1);
 		
 		c.setCalle(Dentre.texto("Calle: "));
 		
@@ -70,7 +58,7 @@ public class Main {
 		c.setLocalidad(Dentre.texto("Localidad: "));
 		
 		try {
-			cbo.alta(c);
+			cbo.modificacion(c);
 		} catch (ConsorcioException e) {
 			
 			e.printStackTrace();

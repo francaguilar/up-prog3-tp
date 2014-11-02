@@ -10,7 +10,7 @@ import exceptions.ConexionException;
 public class DBManager {
 
 	private static final String DB_DRIVER = "org.hsqldb.jdbcDriver";
-	private static final String DB_URL = "jdbc:hsqldb:file:sql/tpdb;shutdown=true;hsqldb.default_table_type=cached";
+	private static final String DB_URL = "jdbc:hsqldb:file:sql/tpdb;shutdown=true;hsqldb.default_table_type=memory";
 	private static final String DB_USERNAME = "sa";
 	private static final String DB_PASSWORD = "";
 	

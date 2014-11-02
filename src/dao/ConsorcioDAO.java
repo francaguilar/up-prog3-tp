@@ -14,7 +14,7 @@ public interface ConsorcioDAO {
 	
 	public void modificacion(Consorcio c) throws ConsorcioException;
 	
-	public Consorcio get(Consorcio c) throws ConsorcioException;
+	public Consorcio get(int id) throws ConsorcioException;
 	
 	public ArrayList<Consorcio> getAll() throws ConsorcioException;
 

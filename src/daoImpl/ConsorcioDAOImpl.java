@@ -155,12 +155,12 @@ public class ConsorcioDAOImpl implements ConsorcioDAO {
 		try {
 			
 			pstmt = conn.prepareStatement("UPDATE CONSORCIOS SET " +
-					"calles = ?," +
+					"calle = ?," +
 					"numero = ?," +
 					"codigoPostal = ?," +
 					"provincia = ?," +
 					"localidad = ?" +
-					"WHERE" +
+					"WHERE " +
 					"id = ?");
 			
 			pstmt.setString(1, c.getCalle());
@@ -168,6 +168,7 @@ public class ConsorcioDAOImpl implements ConsorcioDAO {
 			pstmt.setInt(3, c.getCodigoPostal());
 			pstmt.setString(4, c.getProvincia());
 			pstmt.setString(5, c.getLocalidad());
+			pstmt.setInt(6, c.getId());
 			
 			pstmt.executeUpdate();
 			
@@ -200,7 +201,7 @@ public class ConsorcioDAOImpl implements ConsorcioDAO {
 	}
 
 	@Override
-	public Consorcio get(Consorcio c) throws ConsorcioException {
+	public Consorcio get(int id) throws ConsorcioException {
 		
 		Connection conn;
 
@@ -208,7 +209,7 @@ public class ConsorcioDAOImpl implements ConsorcioDAO {
 			conn = DBManager.getInstance().connect();
 		} catch (ConexionException e2) {
 
-			String error = ConsorcioException.ERROR_BUSCAR_USUARIO + c.getNombre();
+			String error = ConsorcioException.ERROR_BUSCAR_USUARIO + id;
 			
 			error += "\n" + e2.getMessage();
 			
@@ -222,7 +223,7 @@ public class ConsorcioDAOImpl implements ConsorcioDAO {
 			
 			pstmt = conn.prepareStatement("SELECT * FROM CONSORCIOS WHERE id = ?");
 			
-			pstmt.setInt(1, c.getId());
+			pstmt.setInt(1, id);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -240,7 +241,7 @@ public class ConsorcioDAOImpl implements ConsorcioDAO {
 			
 		} catch (SQLException e) {
 			
-			String error = ConsorcioException.ERROR_BUSCAR_USUARIO + c.getNombre();
+			String error = ConsorcioException.ERROR_BUSCAR_USUARIO + id;
 			
 			error += "\n" + e.getMessage();
 			
